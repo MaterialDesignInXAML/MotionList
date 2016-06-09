@@ -12,7 +12,7 @@ Sample application illustrating how to combine [Dragablz](https://github.com/But
 
 ## How's It Done?
 
-Combining the DragablzItemsControl, the Material Design Card control, and some custom styling (which can be seen in MainWindow.xaml)
+Combining ``` DragablzItemsControl ```, the Material Design ``` Card ``` control, and some custom styling (which can be seen in MainWindow.xaml).
 
 ![Material Design In XAML](https://raw.githubusercontent.com/ButchersBoy/MaterialDesignInXamlToolkit/master/web/images/MD4XAML128.png "Material Design In XAML")
 ![Dragablz](https://dragablz.files.wordpress.com/2015/01/dragablztext22.png "Dragablz")
