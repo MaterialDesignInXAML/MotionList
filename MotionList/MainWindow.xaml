@@ -15,7 +15,10 @@
         Background="{DynamicResource PrimaryHueMidBrush}"
         FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
-        <dragablz:DragablzItemsControl VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="300" Margin="0 64 0 0">
+        <dragablz:DragablzItemsControl VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="300" Margin="0 64 0 0" x:Name="DragablzItemsControl">
+            <dragablz:DragablzItemsControl.PositionMonitor>
+                <dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
+            </dragablz:DragablzItemsControl.PositionMonitor>
             <dragablz:DragablzItemsControl.ItemsOrganiser>
                 <dragablz:VerticalOrganiser />
             </dragablz:DragablzItemsControl.ItemsOrganiser>
@@ -90,9 +93,15 @@
                     </Setter>
                 </Style>
             </dragablz:DragablzItemsControl.ItemContainerStyle>
-            <Grid Width="200" Height="100" />
-            <Grid Width="200" Height="100" />
-            <Grid Width="200" Height="100" />
+            <Grid Width="200" Height="100" Tag="1">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">1</TextBlock>
+            </Grid>
+            <Grid Width="200" Height="100" Tag="2">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">2</TextBlock>
+            </Grid>
+            <Grid Width="200" Height="100" Tag="3">
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">3</TextBlock>
+            </Grid>
         </dragablz:DragablzItemsControl>
         
         
