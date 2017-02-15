@@ -7,15 +7,27 @@
         Title="MainWindow" Height="600" Width="525"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:sweetNewItemsControl="clr-namespace:SweetNewItemsControl"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource PrimaryHueMidBrush}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        d:DataContext="{d:DesignInstance sweetNewItemsControl:MainWindowViewModel, IsDesignTimeCreatable=False}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/themes/MaterialDesignTheme.Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <dragablz:DragablzItemsControl VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="300" Margin="0 64 0 0" x:Name="DragablzItemsControl">
+        <dragablz:DragablzItemsControl VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="300" Margin="0 64 0 0" 
+                                       x:Name="DragablzItemsControl"
+                                       ItemsSource="{Binding Data}">
             <dragablz:DragablzItemsControl.PositionMonitor>
                 <dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
             </dragablz:DragablzItemsControl.PositionMonitor>
@@ -26,6 +38,7 @@
                 <Style TargetType="dragablz:DragablzItem">
                     <Setter Property="Padding" Value="0 4 0 4" />
                     <Setter Property="Margin" Value="32 0 32 0" />
+                    <!-- here we create a custom item container, to animate a card popping out towards the user as it is dragged -->
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
@@ -93,17 +106,19 @@
                     </Setter>
                 </Style>
             </dragablz:DragablzItemsControl.ItemContainerStyle>
-            <Grid Width="200" Height="100" Tag="1">
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">1</TextBlock>
-            </Grid>
-            <Grid Width="200" Height="100" Tag="2">
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">2</TextBlock>
-            </Grid>
-            <Grid Width="200" Height="100" Tag="3">
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">3</TextBlock>
-            </Grid>
+            <dragablz:DragablzItemsControl.ItemTemplate>
+                <DataTemplate DataType="system:Int32">
+                    <Grid Width="200" Height="100" Tag="{Binding}">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding}" />
+                    </Grid>
+                </DataTemplate>
+            </dragablz:DragablzItemsControl.ItemTemplate>
         </dragablz:DragablzItemsControl>
-        
-        
+        <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}" 
+                Content="{materialDesign:PackIcon Plus}"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                Margin="32"
+                Command="{Binding AddCommand}"
+                CommandParameter="{Binding ElementName=DragablzItemsControl}"/>
     </Grid>
 </Window>

@@ -27,28 +27,30 @@ namespace SweetNewItemsControl
         {
             InitializeComponent();
 
+            DataContext = new MainWindowViewModel();
+
             AddHandler(DragablzItem.DragStarted, new DragablzDragStartedEventHandler(ItemDragStarted), true);
-            AddHandler(DragablzItem.DragCompleted, new DragablzDragCompletedEventHandler(ItemDragCompleted), true);
+            AddHandler(DragablzItem.DragCompleted, new DragablzDragCompletedEventHandler(ItemDragCompleted), true);            
         }
 
         private void ItemDragStarted(object sender, DragablzDragStartedEventArgs e)
         {
-            var frameworkElement = (FrameworkElement)e.DragablzItem.DataContext;
+            var item = e.DragablzItem.DataContext;
 
-            System.Diagnostics.Trace.WriteLine($"User started to drag item with Tag {frameworkElement.Tag}.");           
+            System.Diagnostics.Trace.WriteLine($"User started to drag item: {item}.");           
         }
 
         private void ItemDragCompleted(object sender, DragablzDragCompletedEventArgs e)
         {
-            var frameworkElement = (FrameworkElement)e.DragablzItem.DataContext;
-            System.Diagnostics.Trace.WriteLine($"User finished dragging item with Tag {frameworkElement.Tag}.");
+            var item = e.DragablzItem.DataContext;
+            System.Diagnostics.Trace.WriteLine($"User finished dragging item: {item}.");
 
             if (_order == null) return;
 
             System.Diagnostics.Trace.Write("Order is now: ");
-            foreach (var fe in _order.OfType<FrameworkElement>())
+            foreach (var i in _order)
             {
-                System.Diagnostics.Trace.Write(fe.Tag + " ");
+                System.Diagnostics.Trace.Write(i + " ");
             }
             System.Diagnostics.Trace.WriteLine("");
         }
@@ -57,5 +59,6 @@ namespace SweetNewItemsControl
         {
             _order = e.NewOrder;
         }
+        
     }
 }
